@@ -1,11 +1,7 @@
 import requests
 
-def fetch_words_from_api():
-    # API request code
-    return 0
+url = "https://api.datamuse.com/words?topics="
 
-def process_api_response(response_data):
-    # Process API response data
-    return 0
-
-# Other API-related functions
+def fetch_words_from_api(topic):
+    # API request
+    return requests.get(url + topic.lower(), timeout=5)
