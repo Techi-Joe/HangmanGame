@@ -9,20 +9,23 @@ import datamuse_api
 
 class HangmanGame:
     def __init__(self):
-        self.word = "-1"
+        self.word = ""
         self.guessed_letters = set()
         self.max_attempts = 6
         self.remaining_attempts = self.max_attempts
 
     def play(self):
+
         # Main game loop and logic
-        intro_texts = ["Welcome to Hangman Game, designed by Techi-Joe!", "ahhhhhhhhhhh"]
-        for i in range(len(intro_texts)):
-            self.display_text(intro_texts[i])
+
+        # intro text explaining the game
+        intro_texts = ["Welcome to Hangman Game, designed by Techi-Joe!", "This version of the classic napkin game\nallows you to pick topics for the computer\nto choose a word from.", "Unfortunately the words the computer comes up with are a bit\nunrelated sometimes, but hey, thats why you have multiple lives!"]
+        for text in intro_texts:
+            self.display_text(text)
 
     def display_text(self, text):
         # Display the text using a enter to continue method
-        print(Fore.GREEN + "\r" + text)
+        print(Fore.GREEN + "\r\n" + text)
         print(Fore.LIGHTBLACK_EX + "Press enter to continue...", end="", flush=True)
         input()
         print(Style.RESET_ALL + "\033[A", end="")

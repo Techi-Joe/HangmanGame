@@ -1,7 +1,19 @@
 import requests
 
-url = "https://api.datamuse.com/words?topics="
+url = "https://api.datamuse.com/words?ml="
 
 def fetch_words_from_api(topic):
     # API request
-    return requests.get(url + topic.lower(), timeout=5)
+    try:
+        response = requests.get(url + topic.lower(), timeout=5)
+
+        # Check the status code and process the response as needed
+        if response.status_code == 200:
+            return response.json()
+        else:
+            print("Request failed with status code:", response.status_code)
+            return None
+
+    except requests.exceptions.Timeout:
+        print("Request timed out. Please check your internet connection or try again later.")
+        return None
