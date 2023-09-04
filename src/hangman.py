@@ -6,6 +6,10 @@ primary game loop.
 import time
 from colorama import Fore, Back, Style, init
 import datamuse_api
+import word_list
+
+# Initialize colorama (required for Windows)
+init(autoreset=True)
 
 class HangmanGame:
     def __init__(self):
@@ -18,11 +22,30 @@ class HangmanGame:
 
         # Main game loop and logic
 
+
         # intro text explaining the game
         intro_texts = ["Welcome to Hangman Game, designed by Techi-Joe!", "This version of the classic napkin game\nallows you to pick topics for the computer\nto choose a word from.", "Unfortunately the words the computer comes up with are a bit\nunrelated sometimes, but hey, thats why you have multiple lives!"]
         for text in intro_texts:
             self.display_text(text)
 
+
+        # ask user for a topic and validate their response
+        inputError = True
+        while inputError:
+            print("\nPlease enter a topic: ", end="")
+            input_topic = input()
+            if not input_topic.isalpha():
+                inputError = True
+                self.display_text("Error: " + input_topic + " is not a valid topic")
+            else:
+                inputError = False
+
+
+        # send topic to datamuse_api.py and process it into a random word
+        word = word_list.choose_random_word(word_list.process_words(datamuse_api.fetch_words_from_api(input_topic)))
+        print(word)
+
+        
     def display_text(self, text):
         # Display the text using a enter to continue method
         print(Fore.GREEN + "\r\n" + text)

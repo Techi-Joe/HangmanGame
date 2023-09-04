@@ -1,9 +1,13 @@
-import json
+import random
 
-def read_words_from_json(file_path):
-    # Read words from JSON file
-    return 0
+def process_words(response):
+    # Read words from response
+    # {'word': 'forest', 'score': 39561054, 'tags': ['syn', 'n', 'results_type:primary_rel']}
+    word_list = []
+    for word in response:
+        word_list.append(word['word'])
+    return word_list
+
 def choose_random_word(word_list):
     # Choose a random word
-    return 0
-# Other word list-related functions
+    return random.choice(word_list)
