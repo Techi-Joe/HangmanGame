@@ -1,11 +1,11 @@
 import requests
 
-url = "https://api.datamuse.com/words?ml="
+url = "https://api.datamuse.com/words?"
 
 def fetch_words_from_api(topic):
     # API request
     try:
-        response = requests.get(url + topic.lower(), timeout=5)
+        response = requests.get(url + "ml=" + topic.lower() + "&md=f", timeout=5)
 
         # Check the status code and process the response as needed
         if response.status_code == 200:
