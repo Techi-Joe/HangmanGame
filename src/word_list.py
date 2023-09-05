@@ -10,7 +10,7 @@ def process_words(response):
             word_list.append(word['word'])
 
             #!
-            print(f"added word {word['word']} with frequency {get_word_frequency(word)} and score {get_word_score(word)}")
+            # print(f"added word {word['word']} with frequency {get_word_frequency(word)} and score {get_word_score(word)}")
 
         else:
             rejected_words.append(word['word'])

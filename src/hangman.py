@@ -39,7 +39,6 @@ class HangmanGame:
         self.remaining_attempts = self.max_attempts
 
     def play(self):
-
         # Main game loop and logic
 
 
@@ -56,7 +55,7 @@ class HangmanGame:
             input_topic = input()
             if not input_topic.isalpha():
                 inputError = True
-                self.display_text("Error: " + input_topic + " is not a valid topic")
+                self.display_text(f"Error: {input_topic} is not a valid topic")
             else:
                 inputError = False
 
@@ -68,6 +67,23 @@ class HangmanGame:
         #!
         print("word: " + word)
 
+        self.display_text(f"The computer has chosen a word from topic {input_topic}!")
+
+
+        #TODO: use the length of the list in characters to determine win/loss state
+        letters_of_word = [char for char in word if char != ' ']
+        correct_letter_guesses_in = []
+        letter_guesses = []
+        lives = int(len([char for char in word if char != ' ']) * 0.85)
+        while lives > 0 and len(letters_of_word) > 0:
+            print(f"Guesses remaining: {lives}")
+            print(self.display_word(word, correct_letter_guesses_in))
+            
+            # validate user input
+            while True:
+                input()
+
+
 
     def display_text(self, text):
         # Display the text using a enter to continue method
@@ -77,18 +93,18 @@ class HangmanGame:
         print(Style.RESET_ALL + "\033[A", end="")
         print("\r                          ", end="")
 
-    def display_word(self):
+    def display_word(self, word, correct_letter_guesses=[]):
         # Display the word with guessed letters revealed
-        return 0
+        #! remember to handle spaces in logic as well!
+        display_word_list = []
+        word_as_list = [char for char in word]
+        for letter in word_as_list:
+            if letter == correct_letter_guesses or letter == " ":
+                display_word_list.append(f"{letter} ")
+            else:
+                display_word_list.append("_ ")
+        return ' '.join(display_word_list).strip()
+
     def display_guessed_letters(self):
         # Display the letters guessed so far
-        return 0
-    def make_guess(self, letter):
-        # Handle a player's guess
-        return 0
-    def check_win(self):
-        # Check if the player has won
-        return 0
-    def check_loss(self):
-        # Check if the player has lost
         return 0
