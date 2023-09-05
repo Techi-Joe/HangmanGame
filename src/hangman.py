@@ -61,15 +61,12 @@ class HangmanGame:
                 inputError = False
 
 
-        # send topic to datamuse_api.pyinput_topicit into a random word
+        # send topic to datamuse_api.pyinput_topic and get a random word
         api_response = datamuse_api.fetch_words_from_api(input_topic)
         word = word_list.choose_random_word(word_list.process_words(api_response))
 
         #!
         print("word: " + word)
-
-        #!
-        print(word_list.word_frequency(word, api_response))
 
 
     def display_text(self, text):
