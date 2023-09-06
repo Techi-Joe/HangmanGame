@@ -101,10 +101,8 @@ class HangmanGame:
                         letter_guesses.append(guess)
                         break
                     else:
-                        os.system('cls')
                         self.display_text("\rError: you already guessed that letter!")
                 else:
-                    os.system('cls')
                     self.display_text(f"\rError: {guess} is not a letter")
             
 
