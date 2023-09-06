@@ -6,11 +6,15 @@ def process_words(response):
     rejected_words = []
     for word in response:
         # prioritizes words with high frequency and high score
+
+        #! used for debugging purposes
+        # print(f"found word {word['word']} with frequency {get_word_frequency(word)} and score {get_word_score(word)}")
+        
         if get_word_frequency(word) > 1.00 and get_word_score(word) > 28000000:
             word_list.append(word['word'])
 
-            #! used for testing purposes
-            print(f"added word {word['word']} with frequency {get_word_frequency(word)} and score {get_word_score(word)}")
+            #! used for debugging purposes
+            # print(f"added word {word['word']} with frequency {get_word_frequency(word)} and score {get_word_score(word)}")
 
         else:
             rejected_words.append(word['word'])
