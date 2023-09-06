@@ -27,6 +27,7 @@ Methods:
 from colorama import Fore, Style, init
 import datamuse_api
 import word_list
+import os
 
 # Initialize colorama (required for Windows)
 init(autoreset=True)
@@ -64,24 +65,59 @@ class HangmanGame:
         api_response = datamuse_api.fetch_words_from_api(input_topic)
         word = word_list.choose_random_word(word_list.process_words(api_response))
 
-        #!
-        print("word: " + word)
 
-        self.display_text(f"The computer has chosen a word from topic {input_topic}!")
+        self.display_text(f"The computer has chosen a word from topic: {input_topic}!")
 
 
-        #TODO: use the length of the list in characters to determine win/loss state
+        # variables for win/loss state
         letters_of_word = [char for char in word if char != ' ']
-        correct_letter_guesses_in = []
+        correct_letter_guesses_in = set()
         letter_guesses = []
         lives = int(len([char for char in word if char != ' ']) * 0.85)
-        while lives > 0 and len(letters_of_word) > 0:
+        guess = ""
+
+
+        while len(letters_of_word) > 0:
+
+
+            # display crucial game information
+            os.system('clear')
             print(f"Guesses remaining: {lives}")
             print(self.display_word(word, correct_letter_guesses_in))
+            self.display_guessed_letters(letter_guesses)
             
+
+            # ask the user for a guess
             # validate user input
             while True:
-                input()
+                guess = input("Guess a letter: ")
+                if guess.isalpha() and len(guess) == 1:
+                    letter_guesses.append(guess)
+                    break
+                else:
+                    self.display_text(f"\rError: {guess} is not a letter")
+            
+
+            # Check if the guessed letter is in letters_of_word
+            if guess in letters_of_word:
+                # Remove guessed letter from letters_of_word
+                letters_of_word = [char for char in letters_of_word if char != guess]
+        
+                # Add the guessed letter to correct_letter_guesses_in (without duplicates)
+                if guess not in correct_letter_guesses_in:
+                    correct_letter_guesses_in.add(guess)
+            else:
+                # Deduct a life for incorrect guess
+                lives -= 1
+                self.display_text(f"Incorrect guess! You lost a life! {lives} lives remaining!")
+            
+            if lives == 0:
+                self.display_text(f"GAME OVER: you lose! The word was {word}.")
+                break
+            elif len(letters_of_word) == 0:
+                self.display_text(f"GAME OVER: YOU WON!!! The word was {word}.")
+        
+
 
 
 
@@ -95,16 +131,16 @@ class HangmanGame:
 
     def display_word(self, word, correct_letter_guesses=[]):
         # Display the word with guessed letters revealed
-        #! remember to handle spaces in logic as well!
         display_word_list = []
         word_as_list = [char for char in word]
         for letter in word_as_list:
-            if letter == correct_letter_guesses or letter == " ":
+            if letter in correct_letter_guesses or letter == " ":
                 display_word_list.append(f"{letter} ")
             else:
                 display_word_list.append("_ ")
         return ' '.join(display_word_list).strip()
 
-    def display_guessed_letters(self):
+
+    def display_guessed_letters(self, letter_list):
         # Display the letters guessed so far
-        return 0
+        print("Guessed Letters: " + ' '.join(letter_list + " "))
