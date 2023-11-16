@@ -21,11 +21,11 @@ def process_words(response, topic):
     average_score = sum(get_word_score(word) for word in response) / len(response)
 
     # Adjust thresholds based on averages
-    frequency_threshold = max(1.00, average_frequency)
-    score_threshold = min(28000000, average_score)
+    frequency_threshold = average_frequency
+    score_threshold = average_score
 
     # Additional similarity threshold
-    similarity_threshold = 0.3  # Adjust as needed
+    similarity_threshold = 0.4  # Adjust as needed
 
     # Filter words based on adjusted thresholds and similarity
     for word in response:
@@ -83,4 +83,7 @@ def get_word_score(word):
 
 def choose_random_word(word_list):
     # Choose a random word
-    return random.choice(word_list)
+    try:
+        return random.choice(word_list)
+    except IndexError:
+        input("\nERROR: INVALID TOPIC. PRESS ENTER TO EXIT")
