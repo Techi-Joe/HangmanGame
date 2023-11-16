@@ -63,8 +63,12 @@ class HangmanGame:
 
         # send topic to datamuse_api.pyinput_topic and get a random word
         api_response = datamuse_api.fetch_words_from_api(input_topic)
+        if api_response is None:
+            self.display_text(f"Error: {input_topic} is not a valid topic. please restart the game.")
         word = word_list.choose_random_word(word_list.process_words(api_response))
 
+        #! for debugging purposes
+        # print(f"word: {word}")
 
         self.display_text(f"The computer has chosen a word from topic: {input_topic}!")
 
@@ -81,10 +85,11 @@ class HangmanGame:
 
 
             # display crucial game information
-            os.system('clear')
+            os.system('cls')
             print(f"Guesses remaining: {lives}")
-            print(self.display_word(word, correct_letter_guesses_in))
             self.display_guessed_letters(letter_guesses)
+            print(self.display_word(word, correct_letter_guesses_in))
+            print()
             
 
             # ask the user for a guess
@@ -92,8 +97,11 @@ class HangmanGame:
             while True:
                 guess = input("Guess a letter: ")
                 if guess.isalpha() and len(guess) == 1:
-                    letter_guesses.append(guess)
-                    break
+                    if guess not in letter_guesses:
+                        letter_guesses.append(guess)
+                        break
+                    else:
+                        self.display_text("\rError: you already guessed that letter!")
                 else:
                     self.display_text(f"\rError: {guess} is not a letter")
             
@@ -141,6 +149,6 @@ class HangmanGame:
         return ' '.join(display_word_list).strip()
 
 
-    def display_guessed_letters(self, letter_list):
+    def display_guessed_letters(self, letter_guesses):
         # Display the letters guessed so far
-        print("Guessed Letters: " + (' '.join(letter_list) + " "))
+        print("Guessed Letters: " + ' '.join(letter_list + " "))
