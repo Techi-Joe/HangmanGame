@@ -151,4 +151,4 @@ class HangmanGame:
 
     def display_guessed_letters(self, letter_guesses):
         # Display the letters guessed so far
-        print("Guessed Letters: " + ' '.join(letter_list + " "))
+        print("Guessed Letters: " + (' '.join(letter_guesses) + " "))
