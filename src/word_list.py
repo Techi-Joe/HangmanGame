@@ -5,6 +5,7 @@ def process_words(response):
     word_list = []
     rejected_words = []
     for word in response:
+        #TODO: rank order and filter instead of eliminate words
         # prioritizes words with high frequency and high score
         if get_word_frequency(word) > 1.00 and get_word_score(word) > 28000000:
             word_list.append(word['word'])

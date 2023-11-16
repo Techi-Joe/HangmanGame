@@ -44,7 +44,7 @@ class HangmanGame:
 
 
         # intro text explaining the game
-        intro_texts = ["Welcome to Hangman Game, designed by Techi-Joe!", "This version of the classic napkin game allows you to pick a topic for the computer to choose a word from.", "Then it's up to you to quess the computer's word before you run out of lives!"]
+        intro_texts = ["Welcome to Hangman Game, designed by Techi-Joe!", "This version of the classic napkin game allows you to pick a topic for the computer to choose a word from.", "Then it's up to you to guess the computer's word before you run out of lives!"]
         for text in intro_texts:
             self.display_text(text)
 
@@ -143,4 +143,4 @@ class HangmanGame:
 
     def display_guessed_letters(self, letter_list):
         # Display the letters guessed so far
-        print("Guessed Letters: " + ' '.join(letter_list + " "))
+        print("Guessed Letters: " + (' '.join(letter_list) + " "))
