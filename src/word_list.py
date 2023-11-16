@@ -1,28 +1,54 @@
 import random
+import spacy
 
-def process_words(response):
+# Load spaCy model
+nlp = spacy.load("en_core_web_md")
+
+def calculate_similarity(word, topic):
+    # Calculate cosine similarity between word and topic
+    word_vector = nlp(word).vector
+    topic_vector = nlp(topic).vector
+    similarity = word_vector.dot(topic_vector) / (nlp(word).vector_norm * nlp(topic).vector_norm)
+    return similarity
+
+def process_words(response, topic):
     # Read words from response
     word_list = []
     rejected_words = []
-    for word in response:
-        #TODO: rank order and filter instead of eliminate words
-        # prioritizes words with high frequency and high score
 
-        #! used for debugging purposes
-        # print(f"found word {word['word']} with frequency {get_word_frequency(word)} and score {get_word_score(word)}")
-        
-        if get_word_frequency(word) > 1.00 and get_word_score(word) > 28000000:
+    # Calculate average frequency and score
+    average_frequency = sum(get_word_frequency(word) for word in response) / len(response)
+    average_score = sum(get_word_score(word) for word in response) / len(response)
+
+    # Adjust thresholds based on averages
+    frequency_threshold = max(1.00, average_frequency)
+    score_threshold = min(28000000, average_score)
+
+    # Additional similarity threshold
+    similarity_threshold = 0.3  # Adjust as needed
+
+    # Filter words based on adjusted thresholds and similarity
+    for word in response:
+        word_frequency = get_word_frequency(word)
+        word_score = get_word_score(word)
+
+        if (
+            word_frequency > frequency_threshold
+            and word_score > score_threshold
+            and calculate_similarity(word['word'], topic) > similarity_threshold
+        ):
             word_list.append(word['word'])
 
-            #! used for debugging purposes
-            # print(f"added word {word['word']} with frequency {get_word_frequency(word)} and score {get_word_score(word)}")
+            #! for debugging
+            print(f"added word {word['word']} with frequency {word_frequency} and score {word_score}")
 
         else:
             rejected_words.append(word['word'])
-    # if no words with a frequency >1 and no score greater than 29550000 is found, then we accept all words
+
+    # If no words meet the adjusted thresholds, accept all words
     if len(word_list) == 0:
-        print("\nUnfortunately that topic is either not broad or not common enough, so the word may not quite match the topic you picked.")
-        return rejected_words
+        print("\nUnfortunately, that topic is either not broad or not common enough, so the words may not quite match the topic you picked.")
+
     return word_list
 
 

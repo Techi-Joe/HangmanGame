@@ -65,7 +65,7 @@ class HangmanGame:
         api_response = datamuse_api.fetch_words_from_api(input_topic)
         if api_response is None:
             self.display_text(f"Error: {input_topic} is not a valid topic. please restart the game.")
-        word = word_list.choose_random_word(word_list.process_words(api_response))
+        word = word_list.choose_random_word(word_list.process_words(api_response, input_topic))
 
         #! for debugging purposes
         # print(f"word: {word}")
