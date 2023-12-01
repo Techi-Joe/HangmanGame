@@ -70,22 +70,27 @@ class HangmanGame:
         #! for debugging purposes
         # print(f"word: {word}")
 
-        self.display_text(f"The computer has chosen a word from topic: {input_topic}!")
-
 
         # variables for win/loss state
-        letters_of_word = [char for char in word if char != ' ']
+        try:
+            letters_of_word = [char for char in word if char != ' ']
+        except TypeError as e:
+            print(e)
+            exit()
         correct_letter_guesses_in = set()
         letter_guesses = []
         lives = int(len([char for char in word if char != ' ']) * 0.85)
         guess = ""
 
+        self.display_text(f"The computer has chosen a word from topic: {input_topic}!")
 
+
+        # main game loop
         while len(letters_of_word) > 0:
 
 
             # display crucial game information
-            os.system('cls')
+            os.system('cls' if os.name == 'nt' else 'clear')  # For clearing the terminal
             print(f"Guesses remaining: {lives}")
             self.display_guessed_letters(letter_guesses)
             print(self.display_word(word, correct_letter_guesses_in))
@@ -95,15 +100,18 @@ class HangmanGame:
             # ask the user for a guess
             # validate user input
             while True:
-                guess = input("Guess a letter: ")
+                guess = input("\nGuess a letter: ").lower()
                 if guess.isalpha() and len(guess) == 1:
                     if guess not in letter_guesses:
                         letter_guesses.append(guess)
                         break
                     else:
-                        self.display_text("\rError: you already guessed that letter!")
+                        #! os.system('cls' if os.name == 'nt' else 'clear')
+                        self.display_text("Error: you already guessed that letter!")
+                        self.display_word(word, correct_letter_guesses_in)
                 else:
-                    self.display_text(f"\rError: {guess} is not a letter")
+                    self.display_text(f"Error: {guess} is not a letter")
+                    self.display_word(word, correct_letter_guesses_in)
             
 
             # Check if the guessed letter is in letters_of_word
@@ -129,11 +137,15 @@ class HangmanGame:
 
 
 
-    def display_text(self, text):
-        # Display the text using a enter to continue method
+    def display_text(self, text, new_line=True):
+    # Display the text using an enter-to-continue method
         print(Fore.GREEN + "\r\n" + text)
-        print(Fore.LIGHTBLACK_EX + "Press enter to continue...", end="", flush=True)
-        input()
+        if new_line:
+            print(Fore.LIGHTBLACK_EX + "Press enter to continue...", end="", flush=True)
+            input()
+        else:
+            print(Fore.LIGHTBLACK_EX + "Press enter to continue...")
+            input()
         print(Style.RESET_ALL + "\033[A", end="")
         print("\r                          ", end="")
 
