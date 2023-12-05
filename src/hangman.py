@@ -23,11 +23,10 @@ Methods:
     check_loss(self): Checks if the player has lost.
 """
 
-
+import os
 from colorama import Fore, Style, init
 import datamuse_api
 import word_list
-import os
 
 # Initialize colorama (required for Windows)
 init(autoreset=True)

@@ -15,17 +15,20 @@ def process_words(response, topic):
     # Read words from response
     word_list = []
     rejected_words = []
+    
+    #! for debugging purposes
+    print(f"length of response: {len(response)}")
 
     # Calculate average frequency and score
     average_frequency = sum(get_word_frequency(word) for word in response) / len(response)
     average_score = sum(get_word_score(word) for word in response) / len(response)
 
     # Adjust thresholds based on averages
-    frequency_threshold = average_frequency
-    score_threshold = average_score
+    frequency_threshold = 0.7*average_frequency
+    score_threshold = 0.9*average_score
 
     # Additional similarity threshold
-    similarity_threshold = 0.3  # Adjust as needed
+    similarity_threshold = 0.4  # Adjust as needed
 
     # Filter words based on adjusted thresholds and similarity
     for word in response:
@@ -40,7 +43,7 @@ def process_words(response, topic):
             word_list.append(word['word'])
 
             #! for debugging
-            print(f"added word {word['word']} with frequency {word_frequency} and score {word_score}")
+            print(f"added word {word['word']} with frequency {word_frequency}, score {word_score}, and similarity {calculate_similarity(word['word'], topic)} under topic {topic}")
 
         else:
             rejected_words.append(word['word'])
