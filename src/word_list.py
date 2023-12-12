@@ -11,13 +11,10 @@ def calculate_similarity(word, topic):
     similarity = word_vector.dot(topic_vector) / (nlp(word).vector_norm * nlp(topic).vector_norm)
     return similarity
 
-def process_words(response, topic):
+def process_words(response, topic, debug=False):
     # Read words from response
     word_list = []
     rejected_words = []
-    
-    #! for debugging purposes
-    print(f"length of response: {len(response)}")
 
     # Calculate average frequency and score
     average_frequency = sum(get_word_frequency(word) for word in response) / len(response)
@@ -42,8 +39,8 @@ def process_words(response, topic):
         ):
             word_list.append(word['word'])
 
-            #! for debugging
-            print(f"added word {word['word']} with frequency {word_frequency}, score {word_score}, and similarity {calculate_similarity(word['word'], topic)} under topic {topic}")
+            if debug:
+                print(f"added word {word['word']} with frequency {word_frequency}, score {word_score}, and similarity {calculate_similarity(word['word'], topic)} under topic {topic}")
 
         else:
             rejected_words.append(word['word'])
