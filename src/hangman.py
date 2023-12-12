@@ -66,9 +66,6 @@ class HangmanGame:
             self.display_text(f"Error: {input_topic} is not a valid topic. please restart the game.")
         word = word_list.choose_random_word(word_list.process_words(api_response, input_topic))
 
-        #! for debugging purposes
-        # print(f"word: {word}")
-
 
         # variables for win/loss state
         try:
@@ -105,12 +102,9 @@ class HangmanGame:
                         letter_guesses.append(guess)
                         break
                     else:
-                        #! os.system('cls' if os.name == 'nt' else 'clear')
                         self.display_text("Error: you already guessed that letter!")
-                        self.display_word(word, correct_letter_guesses_in)
                 else:
                     self.display_text(f"Error: {guess} is not a letter")
-                    self.display_word(word, correct_letter_guesses_in)
             
 
             # Check if the guessed letter is in letters_of_word
@@ -126,9 +120,12 @@ class HangmanGame:
                 lives -= 1
                 self.display_text(f"Incorrect guess! You lost a life! {lives} lives remaining!")
             
+            # loss condition
             if lives == 0:
                 self.display_text(f"GAME OVER: you lose! The word was {word}.")
                 break
+
+            # win condition
             elif len(letters_of_word) == 0:
                 self.display_text(f"GAME OVER: YOU WON!!! The word was {word}.")
         
