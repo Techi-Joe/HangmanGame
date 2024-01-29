@@ -11,9 +11,13 @@ def fetch_words_from_api(topic):
         if response.status_code == 200:
             return response.json()
         else:
-            print("Request failed with status code:", response.status_code)
+            print("\nRequest failed with status code: ", response.status_code)
             return None
 
     except requests.exceptions.Timeout:
-        print("Request timed out. Please check your internet connection or try again later.")
+        print("\nRequest timed out. Please check your internet connection or try again later.")
+        return None
+    
+    except requests.exceptions.ConnectionError:
+        print("\n! Connection error. Please check your internet connection or try again later. !")
         return None
