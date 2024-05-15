@@ -46,7 +46,7 @@ def process_words(response, topic, debug=False):
             rejected_words.append(word['word'])
 
     # If no words meet the adjusted thresholds, accept all words
-    if len(word_list) == 0:
+    if len(word_list) < 5:
         print("\nUnfortunately, that topic is either not broad or not common enough, so the words may not quite match the topic you picked.")
 
     return word_list

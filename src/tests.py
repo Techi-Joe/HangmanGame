@@ -1,9 +1,11 @@
 import datamuse_api
 import word_list
 
-topics = ["sports", "animals", "farm", "nature", "tech", "travel", "weather", "family",
+topics = ["sports", "animals", "farm", "nature", "travel", "weather", "family",
           "science", "food", "history", "movies", "music", "literature", "art", "technology", "audio"]
 
+
+# topics = ["numbers"]
 
 def test_topics():
     for topic in topics:
