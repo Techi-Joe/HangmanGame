@@ -5,7 +5,7 @@ topics = ["sports", "animals", "farm", "nature", "travel", "weather", "family",
           "science", "food", "history", "movies", "music", "literature", "art", "technology", "audio"]
 '''
 
-topics = ["filmmaking"]
+topics = ["art"]
 
 def test_topics():
     for topic in topics:
